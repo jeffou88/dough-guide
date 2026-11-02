@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>麵糰與發酵｜酵母、老麵與各種發酵程度的麵點</title>
+<meta name="description" content="給麵點師傅的發酵深度筆記：麵筋與酵母原理、酵母與老麵比較、發酵程度光譜、饅頭專章、冷凍發麵食品、烘焙百分比與水溫等互動工具。">
+<meta name="theme-color" content="#0d0b09">
+<style>
+:root{
+  --bg:#0d0b09;--bg2:#14110d;--panel:#1a1612;--panel2:#221d17;--line:#2f2820;--line2:#45392c;
+  --wheat:#f2c879;--amber:#ffab4c;--crust:#e0884a;--green:#7ad69a;--red:#ff6b6b;--blue:#79c2ff;--violet:#c7a3ff;
+  --text:#f3ece2;--muted:#b9ab98;--dim:#8a7d6c;--radius:16px;--nav:250px;
+  --sans:"PingFang TC","Noto Sans CJK TC","Noto Sans TC","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+  --serif:"Songti TC","Noto Serif CJK TC","PMingLiU",serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.8;font-size:16px;overflow-x:hidden;
+ background-image:radial-gradient(1100px 600px at 85% -10%,rgba(242,200,121,.09),transparent 60%),radial-gradient(800px 500px at -10% 50%,rgba(224,136,74,.06),transparent 60%);background-attachment:fixed}
+a{color:var(--wheat)}
+b,strong{color:#fff}
+button,input,select{font-family:inherit;font-size:16px}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.hl{color:var(--wheat)}.hl-r{color:var(--red)}.hl-g{color:var(--green)}.hl-b{color:var(--blue)}
+.mono{font-family:var(--mono)}
+/* nav */
+#nav{position:fixed;top:0;left:0;bottom:0;width:var(--nav);z-index:40;padding:24px 16px;display:flex;flex-direction:column;background:rgba(16,13,10,.95);border-right:1px solid var(--line);overflow-y:auto}
+.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--text);margin:0 6px 20px}
+.brand-mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#f7d796,#b9772f);font-size:20px}
+.brand-name{font-weight:800;font-size:17px;line-height:1.3}.brand-sub{font-size:12px;color:var(--dim)}
+#nav ol{list-style:none;margin:0;padding:0;counter-reset:n}
+#nav li a{display:flex;gap:10px;align-items:center;padding:9px 10px;min-height:44px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:14.5px}
+#nav li a:hover{background:var(--panel)}
+#nav li a.on{background:var(--panel2);color:#fff;box-shadow:inset 3px 0 0 var(--wheat)}
+#nav li a span{font-family:var(--mono);font-size:12px;color:var(--dim);width:20px}
+main{margin-left:var(--nav);position:relative}
+.chapter{max-width:1060px;margin:0 auto;padding:70px 40px 30px}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--wheat);text-transform:uppercase}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.2;margin:.2em 0 .4em;font-weight:900}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.3;margin:.2em 0 .6em;font-weight:800}
+h3{font-size:20px;margin:1.6em 0 .5em;color:#fff}
+h4{font-size:17px;margin:1.1em 0 .3em;color:var(--wheat)}
+p{margin:.5em 0 1em}
+.lead{font-size:18px;color:var(--muted);max-width:780px}
+.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin:18px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2>*,.grid3>*{min-width:0}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.mini h4{margin-top:0}
+.note{border-left:3px solid var(--amber);background:rgba(255,171,76,.07);padding:12px 16px;border-radius:0 12px 12px 0;color:#eadcc6;margin:14px 0;font-size:15px}
+.warn{border-left-color:var(--red);background:rgba(255,107,107,.07)}
+.tag{display:inline-block;font-size:12.5px;padding:2px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);margin:2px 4px 2px 0}
+.est{display:inline-block;font-size:12.5px;padding:3px 10px;border-radius:999px;background:rgba(255,171,76,.14);color:var(--amber);border:1px solid rgba(255,171,76,.35)}
+ul,ol{padding-left:1.3em}li{margin:.25em 0}
+.tbl{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--wheat);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.tabs button,.btn{min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid var(--line2);background:var(--panel);color:var(--text);cursor:pointer}
+.tabs button[aria-selected=true],.btn.on{background:var(--wheat);color:#1a1209;border-color:var(--wheat);font-weight:700}
+.btn.primary{background:var(--wheat);color:#1a1209;font-weight:700;border-color:var(--wheat)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.cmp .y{border-top:3px solid var(--blue)}.cmp .l{border-top:3px solid var(--crust)}
+.cmp h4{margin-top:0}
+.verdict{margin-top:12px;font-size:15px;color:var(--muted)}
+/* spectrum */
+.spec{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+.spec button{min-height:64px;border-radius:12px;border:1px solid var(--line2);background:var(--panel);color:var(--text);cursor:pointer;padding:8px 4px;line-height:1.3;font-weight:700}
+.spec button small{display:block;font-weight:400;color:var(--dim);font-size:12px;margin-top:3px}
+.spec button[aria-selected=true]{outline:2px solid var(--wheat);background:var(--panel2)}
+.specbar{height:12px;border-radius:999px;background:linear-gradient(90deg,#6b5b48,#d8b46a,#f2c879,#ffab4c,#ff6b6b);margin:4px 0 10px}
+.detail dl{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;margin:0}
+.detail dt{color:var(--wheat);font-weight:700}.detail dd{margin:0}
+/* tools */
+.tool{border-top:3px solid var(--wheat)}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:12px 0}
+.form label{display:flex;flex-direction:column;font-size:14px;color:var(--muted);gap:4px}
+.form input,.form select{min-height:44px;padding:8px 10px;border-radius:10px;border:1px solid var(--line2);background:#0f0c0a;color:#fff;width:100%}
+.out{background:#0f0c0a;border:1px solid var(--line2);border-radius:12px;padding:14px 16px;margin-top:10px}
+.big{font-size:28px;font-weight:900;color:var(--wheat);font-family:var(--mono)}
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.chk label{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 14px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);cursor:pointer;font-size:15px}
+.chk input{width:20px;height:20px;accent-color:var(--wheat)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:10px 0 10px 46px;border-bottom:1px dashed var(--line)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:10px;width:32px;height:32px;border-radius:50%;background:var(--panel2);border:1px solid var(--wheat);color:var(--wheat);display:grid;place-items:center;font-weight:800;font-family:var(--mono)}
+svg{max-width:100%;height:auto;display:block}
+.svgbox{background:#100d0a;border:1px solid var(--line);border-radius:14px;padding:12px;margin:14px 0}
+.cap{font-size:13.5px;color:var(--dim);margin-top:6px}
+.hero{padding-top:90px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+footer{max-width:1060px;margin:0 auto;padding:30px 40px 80px;color:var(--dim);font-size:14px}
+.src li{word-break:break-all}
+#topnav{display:none}
+@media (max-width:960px){
+ :root{--nav:0px}
+ #nav{display:none}
+ #topnav{display:flex;position:sticky;top:0;z-index:40;gap:6px;overflow-x:auto;padding:8px 10px;background:rgba(13,11,9,.96);border-bottom:1px solid var(--line);scrollbar-width:none}
+ #topnav a{flex:0 0 auto;min-height:40px;display:flex;align-items:center;padding:4px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);text-decoration:none;font-size:14px}
+ #topnav a.on{background:var(--wheat);color:#1a1209;border-color:var(--wheat)}
+ html{scroll-padding-top:66px}
+ .chapter{padding:50px 22px 20px}
+ footer{padding:30px 22px 70px}
+}
+@media (max-width:680px){
+ body{font-size:15.5px}
+ .grid2,.grid3,.cmp{grid-template-columns:1fr}
+ .chapter{padding:40px 14px 16px}
+ .card{padding:16px}
+ .spec{grid-template-columns:repeat(3,1fr)}
+ .detail dl{grid-template-columns:1fr}
+ .detail dt{margin-top:8px}
+ .lead{font-size:16.5px}
+ .form{grid-template-columns:1fr 1fr}
+ footer{padding:24px 14px 60px}
+}
+</style>
+</head>
+<body>
+<nav id="nav" aria-label="章節導覽">
+ <a class="brand" href="#top"><div class="brand-mark" aria-hidden="true">🥟</div><div><div class="brand-name">麵糰與發酵</div><div class="brand-sub">給師傅的進階筆記</div></div></a>
+ <ol id="navlist"></ol>
+</nav>
+<div id="topnav" aria-label="章節導覽（手機）"></div>
+<main>
+<section class="chapter hero" id="top" data-nav="開頭">
+ <div class="eyebrow">Dough &amp; Fermentation</div>
+ <h1>麵糰與發酵<br><span class="hl">酵母、老麵與各種發酵程度的麵點</span></h1>
+ <p class="lead">寫給每天在案板前的人。這頁不教怎麼揉麵，而是把師傅手上的「感覺」拆成原理和數字範圍：麵筋怎麼成形、酵母和老麵差在哪、從死麵到全發各在光譜的哪一段、饅頭為什麼皺、冷凍發麵怎麼做才穩，最後附上幾個算數的小工具。</p>
+ <div class="note">頁面上的數字都是<b>經驗範圍或參考起點</b>，各來源本來就不一致，也會隨麵粉、季節、設備而變。請把它當作討論的基準，最後還是師傅的手說了算。</div>
+ <div class="chips"><span class="tag">麵筋與酵母代謝</span><span class="tag">酵母 vs 老麵</span><span class="tag">發酵光譜</span><span class="tag">饅頭專章</span><span class="tag">冷凍發麵</span><span class="tag">5 個計算工具</span></div>
+</section>
+
+<!-- CH1 -->
+<section class="chapter" id="ch1" data-nav="發酵原理">
+ <div class="eyebrow">01 · Principles</div>
+ <h2>發酵原理速覽</h2>
+ <div class="grid2">
+  <div>
+   <h3>麵筋：骨架從哪裡來</h3>
+   <p>小麥的<b>麥穀蛋白（glutenin）</b>給彈性、<b>醇溶蛋白（gliadin）</b>給延展性。兩者一遇水就水合，揉捏或壓延讓蛋白質鏈對齊、以雙硫鍵交聯，形成能包住氣體的網膜。</p>
+   <ul>
+    <li><b>水合</b>先於一切：靜置（自解、鬆弛）10～30 分鐘，等於不花力氣的揉麵。</li>
+    <li><b>揉捏</b>是三維拉扯；<b>壓延（壓麵機反覆對折）</b>是單向排列＋排氣，所以壓延麵糰組織細、表皮亮，是饅頭白亮細緻的關鍵。</li>
+    <li>中式發麵吸水量通常比歐式麵包低（饅頭常見約 45～55%），麵筋不追求「薄膜」，追求的是<b>均勻、細密、有咬勁</b>。</li>
+   </ul>
+  </div>
+  <div class="svgbox">
+   <svg viewBox="0 0 360 240" role="img" aria-label="麵筋網絡示意：未揉時蛋白質散亂，揉壓後形成網絡包住氣泡">
+    <text x="90" y="22" fill="#b9ab98" font-size="13" text-anchor="middle">剛混合：蛋白散亂</text>
+    <text x="270" y="22" fill="#b9ab98" font-size="13" text-anchor="middle">揉壓後：網絡包氣</text>
+    <g stroke="#c9a46a" stroke-width="2" fill="none" stroke-linecap="round">
+     <path d="M30 60 q10 -8 20 2"/><path d="M70 50 q6 12 18 8"/><path d="M120 70 q-10 8 -4 18"/><path d="M40 110 q14 4 18 -8"/><path d="M95 105 q8 10 22 4"/><path d="M140 130 q-12 6 -6 18"/><path d="M50 160 q10 -10 22 0"/><path d="M100 170 q6 -12 20 -8"/><path d="M30 200 q12 6 20 -6"/><path d="M120 205 q10 -6 22 4"/>
+    </g>
+    <line x1="180" y1="35" x2="180" y2="225" stroke="#2f2820"/>
+    <g stroke="#f2c879" stroke-width="2" fill="none">
+     <path d="M200 50 L340 50 M200 90 L340 90 M200 130 L340 130 M200 170 L340 170 M200 210 L340 210"/>
+     <path d="M215 45 L215 215 M255 45 L255 215 M295 45 L295 215 M330 45 L330 215" opacity=".55"/>
+    </g>
+    <g fill="rgba(121,194,255,.25)" stroke="#79c2ff">
+     <circle cx="235" cy="70" r="13"/><circle cx="312" cy="110" r="15"/><circle cx="275" cy="150" r="11"/><circle cx="232" cy="190" r="12"/><circle cx="315" cy="190" r="9"/>
+    </g>
+    <text x="270" y="236" fill="#79c2ff" font-size="12" text-anchor="middle">藍：CO₂ 氣泡</text>
+   </svg>
+   <div class="cap">示意圖：麵筋不是「產氣」，而是「留氣」。產氣靠酵母，留氣靠麵筋。</div>
+  </div>
+ </div>
+ <h3>酵母在麵糰裡做了什麼</h3>
+ <p>酵母（<i>Saccharomyces cerevisiae</i>）吃麵粉中的少量游離糖、以及澱粉酶從破損澱粉切出的麥芽糖，在缺氧為主的麵糰裡走<b>酒精發酵</b>：葡萄糖 → 二氧化碳＋乙醇，副產有機酸、酯類、醛類等風味物質。CO₂ 撐起氣泡；乙醇大多在蒸烤時揮發，發過頭時聞得到「酒味」。若是老麵，乳酸菌再加上<b>乳酸、醋酸</b>，pH 明顯下降，這就是需要用鹼的原因（第 02 章）。</p>
+ <h3>六個控制鈕</h3>
+ <div class="grid3">
+  <div class="mini"><h4>溫度</h4>最強的旋鈕。一般認為約 26～32°C 產氣快又好控；Angel 的家用說明以約 30～36°C 為理想發酵溫度。低於約 10°C 大幅變慢（冷藏延遲發酵就是靠這點），約 40°C 以上開始傷酵母，酵母一般在約 55～60°C 左右死亡。</div>
+  <div class="mini"><h4>時間</h4>短時間＝主要靠酵母量；長時間＝少酵母、多風味，但酸度與麵筋分解都會累積。冬夏同配方常要差 1～2 小時，或改用量。</div>
+  <div class="mini"><h4>鹽</h4>收緊麵筋、抑制酵母。歐式麵包常用約 1.8～2%；中式饅頭常不加或少量（約 0～1%），所以發得比同條件的麵包快。</div>
+  <div class="mini"><h4>糖</h4>少量（約 5% 以下）提供速效糖源、加快起發；量大（約 &gt;8～10%）滲透壓抑制酵母，宜換耐高糖酵母。Angel 建議夏季普通酵母約 1.0%、耐高糖約 0.8%。</div>
+  <div class="mini"><h4>水量</h4>水多＝麵糰軟、酵素與酵母活動快、發得快但塌得也快；水少＝硬、慢、撐得住形。硬麵饅頭和軟白饅頭差就差在這裡。</div>
+  <div class="mini"><h4>pH</h4>酵母在弱酸環境（約 pH 4～6）都能工作；老麵發酵可把麵糰 pH 從約 6 拉到約 4 上下。太酸麵筋變弱、口感發酸，靠鹼中和回中性附近。</div>
+ </div>
+ <h3>過發 vs 不足：用手判斷</h3>
+ <div class="grid2">
+  <div class="mini"><h4>發酵不足</h4><ul><li>手指戳下去<b>很快彈回原狀</b></li><li>切面孔小且少、手感緊實沉重</li><li>成品體積小、表面緊繃、易裂，口感偏死</li></ul></div>
+  <div class="mini"><h4>過發</h4><ul><li>手指戳下去<b>不回彈甚至塌陷</b>，大氣泡破掉</li><li>切面孔大且不勻、絲狀拉扯變弱、聞到明顯酸味或酒味</li><li>成品塌、皺、表面粗糙、顏色發灰或發黃（加鹼過多時）</li></ul></div>
+ </div>
+ <div class="note">剛好：戳下去<b>慢慢回彈一部分、留下淺凹痕</b>；拍打有空鼓聲、切面蜂窩細密均勻。這個「慢回彈」是全發階段最好用的標準，但最後醒發的生坯通常抓在比主發酵略「嫩」一點，讓蒸汽完成最後的膨脹。</div>
+</section>
+
+<!-- CH2 -->
+<section class="chapter" id="ch2" data-nav="酵母 vs 老麵">
+ <div class="eyebrow">02 · Yeast vs Starter</div>
+ <h2>酵母 vs 老麵：深入比較</h2>
+ <h3>商業酵母三型與換算</h3>
+ <div class="tbl"><table>
+  <tr><th>種類</th><th>含水</th><th>使用方式</th><th>相對用量（以即溶為 1）</th><th>保存</th></tr>
+  <tr><td><b>新鮮酵母</b>（壓榨酵母）</td><td>約 70%</td><td>捏碎直接加，或冷天用溫水化開</td><td>約 2.5～3 倍</td><td>冷藏，開封後活性下降快（約數週內用完）</td></tr>
+  <tr><td><b>活性乾酵母</b>（ADY）</td><td>低</td><td>傳統做法先用約 38～43°C 溫水回溶 5～10 分鐘</td><td>約 1～1.25 倍（各廠說法不一）</td><td>常溫未開封；開封後密封冷藏</td></tr>
+  <tr><td><b>即溶（速發）乾酵母</b>（IDY）</td><td>約 5%</td><td>可直接拌入麵粉，避免直接碰冰水</td><td>1</td><td>同上；分一般型／耐高糖型</td></tr>
+ </table></div>
+ <div class="note">換算依據：Lesaffre 澳洲技術文章以「1 份即溶 ≈ 3 份新鮮」為起點；ASBE 給「即溶 ＝ 新鮮 × 0.35、活性乾 ＝ 新鮮 × 0.5」；King Arthur／Red Star 則把即溶與活性乾視為 1:1。<b>所以寫成範圍：新鮮 ≈ 即溶的 2.5～3 倍。</b>新鮮換成乾酵母時，因少了約 7 成的水，理論上要把那部分水補回去（Lesaffre SAF-Instant 文件的做法是約為乾酵母重量 2 倍的水）。</div>
+
+ <h3>老麵是什麼</h3>
+ <p>酵頭、麵肥、老肥、麵頭、引子、酸麵頭——名稱各地不同，本質都是<b>一團持續續養的混合菌群</b>：野生酵母（多為釀酒酵母等）負責產氣，<b>乳酸菌</b>（乳桿菌、片球菌、魏斯氏菌等）負責產酸與風味，有些酵頭還帶<b>醋酸菌</b>。研究報告指出中國北方的「酵子／老麵」菌群差異大，發酵後 pH 可降到約 3.7～4.1。</p>
+ <div class="svgbox">
+  <svg viewBox="0 0 640 210" role="img" aria-label="菌群示意：商業酵母為單一酵母；老麵含野生酵母、乳酸菌與醋酸菌">
+   <rect x="10" y="10" width="300" height="190" rx="14" fill="#151c24" stroke="#79c2ff"/>
+   <text x="160" y="34" fill="#79c2ff" font-size="15" text-anchor="middle" font-weight="700">商業酵母：單一純種</text>
+   <g fill="#79c2ff" opacity=".85">
+    <ellipse cx="60" cy="80" rx="14" ry="11"/><ellipse cx="110" cy="110" rx="14" ry="11"/><ellipse cx="170" cy="75" rx="14" ry="11"/><ellipse cx="230" cy="120" rx="14" ry="11"/><ellipse cx="270" cy="70" rx="14" ry="11"/><ellipse cx="80" cy="155" rx="14" ry="11"/><ellipse cx="150" cy="160" rx="14" ry="11"/><ellipse cx="220" cy="170" rx="14" ry="11"/>
+   </g>
+   <text x="160" y="196" fill="#b9ab98" font-size="12" text-anchor="middle">產氣快、可預期、幾乎不產酸</text>
+   <rect x="330" y="10" width="300" height="190" rx="14" fill="#221911" stroke="#e0884a"/>
+   <text x="480" y="34" fill="#e0884a" font-size="15" text-anchor="middle" font-weight="700">老麵：混合菌群</text>
+   <g fill="#f2c879"><ellipse cx="380" cy="80" rx="13" ry="10"/><ellipse cx="520" cy="70" rx="13" ry="10"/><ellipse cx="450" cy="150" rx="13" ry="10"/><ellipse cx="590" cy="140" rx="13" ry="10"/></g>
+   <g stroke="#7ad69a" stroke-width="6" stroke-linecap="round"><line x1="410" y1="110" x2="430" y2="104"/><line x1="470" y1="85" x2="488" y2="95"/><line x1="560" y1="100" x2="578" y2="92"/><line x1="380" y1="160" x2="398" y2="168"/><line x1="500" y1="170" x2="520" y2="164"/><line x1="530" y1="125" x2="546" y2="135"/><line x1="610" y1="70" x2="612" y2="88"/></g>
+   <g fill="#c7a3ff"><circle cx="420" cy="60" r="5"/><circle cx="600" cy="175" r="5"/><circle cx="490" cy="125" r="5"/></g>
+   <text x="480" y="196" fill="#b9ab98" font-size="12" text-anchor="middle"><tspan fill="#f2c879">● 野生酵母</tspan>　<tspan fill="#7ad69a">━ 乳酸菌</tspan>　<tspan fill="#c7a3ff">• 醋酸菌（部分）</tspan></text>
+  </svg>
+  <div class="cap">示意圖，非比例。實際菌相依地區、麵粉、續養方式而不同。</div>
+ </div>
+ <div class="grid2">
+  <div class="mini"><h4>製作與續養（常見做法）</h4><ul>
+   <li><b>起種</b>：麵粉＋水（常見約 50～60% 水的硬種，或 100% 的稀種），室溫放 1～3 天至有酸香與蜂窩；也有人直接留一塊當天發好的酵母麵糰當起點（最穩）。</li>
+   <li><b>續養</b>：每次用完留一塊，按「老麵 1：新麵粉 1～3（加相應水）」餵養。</li>
+   <li><b>保存</b>：冷藏可延緩數天；久不用可冷凍，用前回溫再餵 1～2 次喚醒。研究指出冷凍後菌群活性會下降。</li>
+   <li><b>用量</b>：主麵糰常見約 10～30%（以麵粉計），純老麵長發可到約 30～50%；越多越快、越酸。</li>
+  </ul></div>
+  <div class="mini"><h4>酸與鹼：中和的邏輯</h4><ul>
+   <li>老麵產的乳酸、醋酸讓麵糰發酸 → 加<b>食用鹼（碳酸鈉）</b>或<b>小蘇打（碳酸氫鈉）</b>中和，同時放出 CO₂ 補一點膨發。</li>
+   <li>經驗量差異大：常見說法 500 g 麵粉配 100 g 老麵，未發過約 1～3 g 鹼，發過頭約 4～7 g；也有「一斤麵一錢（約 5 g）鹼」的說法。<b>沒有固定比例，取決於酸度。</b></li>
+   <li>判斷：切面孔細勻如芝麻、聞起來無酸無鹼味＝正鹼；仍酸＝鹼少；<b>發黃、苦澀鹼味、孔洞消失或出現黃斑＝鹼多</b>。可掐一小塊蒸或烤試。</li>
+   <li>鹼過量會破壞部分維生素（尤其 B 群），也讓口感發硬發澀。</li>
+   <li>純酵母麵糰基本<b>不需要加鹼</b>；只有發過頭出酸時才微量補。</li>
+  </ul></div>
+ </div>
+
+ <h3>互動比較表</h3>
+ <p>點選比較面向：</p>
+ <div class="tabs" role="tablist" id="cmpTabs"></div>
+ <div class="cmp" id="cmpBody" aria-live="polite"></div>
+
+ <h3>兩者混用：老麵＋少量酵母</h3>
+ <ol class="steps">
+  <li>以麵粉計，老麵約 10～20%，即溶酵母減到原本純酵母配方的約 30～60%（例如原本 1% 改成約 0.3～0.6%）。</li>
+  <li>老麵先撕小塊用部分配方水泡開或打散，避免出現老麵疙瘩；酵母照常拌入麵粉。</li>
+  <li><b>把老麵裡的麵粉和水從配方扣掉</b>（用下方工具 a 計算），否則整體吸水會偏高。</li>
+  <li>因發酵時間短、酸度低，<b>多半不用加鹼或只需極少量</b>；若老麵本身已很酸，先試蒸一小塊再決定。</li>
+  <li>效果：有老麵的麥香、微酸層次與較好的保濕，又保留酵母的時程可控——對早餐店的固定出餐節奏最友善。</li>
+ </ol>
+</section>
+
+<!-- CH3 -->
+<section class="chapter" id="ch3" data-nav="發酵光譜">
+ <div class="eyebrow">03 · Spectrum</div>
+ <h2>發酵程度光譜：從死麵到過發</h2>
+ <p>點選階段看細節。所謂「微發／半發」是相對說法，<b>各地、各師傅做法差很多</b>，以下是常見做法的整理。</p>
+ <div class="specbar" aria-hidden="true"></div>
+ <div class="spec" role="tablist" id="specBtns"></div>
+ <div class="svgbox"><svg id="specSvg" viewBox="0 0 640 170" role="img" aria-label="發酵程度與體積變化示意"></svg><div class="cap">示意：高度代表相對體積（以原麵糰為 1×），數值為經驗範圍。</div></div>
+ <div class="card detail" id="specDetail" aria-live="polite"></div>
+</section>
+
+<!-- CH4 -->
+<section class="chapter" id="ch4" data-nav="饅頭專章">
+ <div class="eyebrow">04 · Mantou</div>
+ <h2>饅頭專章</h2>
+ <div class="grid3">
+  <div class="mini"><h4>北方硬實（槓子頭、戧麵）</h4>吸水低（約 40～45%），常在發好的麵糰再「戧」入乾粉揉到硬，組織密、有嚼勁、耐放。多用老麵＋鹼，麥香與鹼香明顯。</div>
+  <div class="mini"><h4>山東／台式老麵饅頭</h4>台灣常見的山東大饅頭：吸水約 45～50%，結實有層次、手撕成片；常老麵或老麵＋酵母，不加或少加糖，強調麥香。</div>
+  <div class="mini"><h4>柔軟白饅頭</h4>早餐店、港式點心常見：吸水約 50～55%，糖約 5～12%、可加少許油或奶，用低筋或粉心粉調整，壓延充分，追求白、鬆、Q 彈。</div>
+ </div>
+ <h3>示範配方（烘焙百分比）</h3>
+ <div class="note"><b>參考起點，依麵粉與環境調整。</b>吸水率依麵粉蛋白質與破損澱粉差異可差 3～5 個百分點。</div>
+ <div class="tbl"><table>
+  <tr><th>材料</th><th>北方硬實</th><th>山東／台式</th><th>柔軟白饅頭</th></tr>
+  <tr><td>麵粉</td><td>100（中筋）</td><td>100（中筋）</td><td>100（中筋或中＋低筋）</td></tr>
+  <tr><td>水</td><td>約 40～45</td><td>約 45～50</td><td>約 50～55（可部分換牛奶）</td></tr>
+  <tr><td>即溶酵母</td><td>約 0～0.5（老麵為主）</td><td>約 0.5～1</td><td>約 0.8～1.2</td></tr>
+  <tr><td>老麵</td><td>約 20～40</td><td>約 10～30（可選）</td><td>0～10（可選）</td></tr>
+  <tr><td>糖</td><td>0</td><td>0～5</td><td>約 5～12</td></tr>
+  <tr><td>油／豬油</td><td>0</td><td>0～2</td><td>約 1～3</td></tr>
+  <tr><td>鹽</td><td>0～0.5</td><td>0～0.5</td><td>0～0.5</td></tr>
+  <tr><td>鹼</td><td>依酸度微量</td><td>依酸度微量</td><td>通常不用</td></tr>
+ </table></div>
+ <h3>完整流程</h3>
+ <ol class="steps">
+  <li><b>和麵</b>：先抓麵糰出缸溫度（約 26～30°C，見工具 b）。中式麵糰水少，攪到成團、無乾粉、略光滑即可，不必打到薄膜。</li>
+  <li><b>基本發酵（可選）</b>：「一次發酵法」直接壓麵整形後醒發；「二次發酵法」先發到約 1.5～2 倍再壓。前者白、細、快；後者風味足、孔較多。</li>
+  <li><b>壓麵／複合壓延</b>：壓麵機反覆對折壓延（常見 10～20 次，看機器與麵糰），排出大氣泡、讓麵筋單向排列，直到表面光滑細亮。<b>壓延時盡量少撒乾粉</b>，乾粉會在蒸製時造成表面起泡、斑點。</li>
+  <li><b>整形</b>：捲條時捲緊、收口朝下；切刀饅頭切口不必再揉。表面張力要夠，但不要撕裂表皮。</li>
+  <li><b>最後醒發</b>：約 32～38°C、相對濕度約 75～85%，看溫度與酵母量常見約 20～60 分鐘，體積約 1.5～2 倍、手輕按慢回彈即可。<b>寧嫩勿老</b>，蒸汽還會再撐。</li>
+  <li><b>蒸製</b>：
+   <ul><li><b>冷水上鍋</b>：讓生坯隨溫度上升再發一段，適合醒發偏嫩或家庭小鍋；缺點是時間不易標準化。</li>
+   <li><b>水滾上鍋（熱汽）</b>：醒發到位直接入，外皮定型快、表面較亮，商用蒸櫃多用。</li>
+   <li>上汽後時間：約 50～80 g 小饅頭約 12～15 分鐘；100～150 g 約 15～20 分鐘；更大的山東饅頭 25 分鐘以上（以中心熟透、按壓回彈為準）。</li></ul></li>
+  <li><b>關火悶 3～5 分鐘再開蓋</b>：讓內外溫差、氣壓差緩和，避免急冷收縮塌皺。鍋蓋要能讓冷凝水沿邊流走或蓋布，防止水滴燙出凹點。</li>
+ </ol>
+ <h3>問題排解</h3>
+ <div class="tbl"><table>
+  <tr><th>症狀</th><th>常見原因</th><th>對策</th></tr>
+  <tr><td>表面皺縮</td><td>過發、麵筋弱撐不住；蒸好立即開蓋急冷；冷凝水滴落；鹼多</td><td>醒發抓嫩一點；關火悶 3～5 分鐘；鍋蓋包布；檢查用鹼</td></tr>
+  <tr><td>塌陷、扁</td><td>醒發過度、水太多、麵粉筋度不足、整形張力不夠</td><td>減水 2～3%、縮短醒發、壓延與整形再收緊</td></tr>
+  <tr><td>發黃</td><td>鹼多；麵粉灰分高或不新鮮；蒸汽中有鐵鏽水</td><td>減鹼並試蒸；換粉心粉；清潔蒸鍋</td></tr>
+  <tr><td>黃斑、黃點</td><td>鹼沒揉勻（鹼塊）</td><td>鹼先溶於少量水再加，揉勻後切面檢查</td></tr>
+  <tr><td>表面起泡、小斑點</td><td>撲粉太多、生坯表面太乾或結皮、醒發濕度太高水滴</td><td>少用乾粉；醒發加蓋保濕但避免滴水</td></tr>
+  <tr><td>組織粗糙、大孔洞</td><td>壓延不足、發酵過頭、整形包入空氣</td><td>增加壓延次數；縮短基本發酵；捲緊</td></tr>
+  <tr><td>酸味</td><td>老麵比例高或發太久、溫度高；未加鹼或鹼少</td><td>縮時或降溫；補鹼；改混用法</td></tr>
+  <tr><td>死麵、不發</td><td>酵母失活（燙水、過期、碰到高濃度鹽糖）、溫度太低、醒發不足；鹼放太多吃掉氣</td><td>檢查酵母、控制水溫、延長醒發；試蒸一顆再整批</td></tr>
+  <tr><td>過鹼（澀、苦、發黃、孔洞消失）</td><td>鹼量大於酸量</td><td>補一些未加鹼的發酵麵糰揉勻，或再發一段讓酸回升</td></tr>
+  <tr><td>開裂</td><td>醒發不足、表皮太乾、火太大</td><td>醒到位、保濕、適度火力</td></tr>
+ </table></div>
+</section>
+
+<!-- CH5 -->
+<section class="chapter" id="ch5" data-nav="冷凍發麵">
+ <div class="eyebrow">05 · Frozen</div>
+ <h2>可冷凍的發麵食品</h2>
+ <p>兩條路線：<b>先蒸熟再凍（熟凍）</b>或<b>凍生坯（生凍）</b>。商業速凍饅頭、包子以熟凍為主；生坯冷凍技術門檻高，但出品像現做。</p>
+ <div class="tbl"><table>
+  <tr><th>項目</th><th>熟品冷凍</th><th>生坯冷凍</th></tr>
+  <tr><td>流程</td><td>正常醒發蒸熟 → 保濕冷卻至接近室溫 → 急凍（中心約 -18～-20°C 以下）→ 密封 → -18°C 以下儲存</td><td>和麵 → 壓延整形 → <b>不發或輕微醒發</b> → 急凍 → 密封 → -18°C 以下；用前解凍＋最後醒發 → 蒸或烤</td></tr>
+  <tr><td>酵母</td><td>正常用量</td><td>常見建議比一般配方多約 1.5～2 倍（ASBE，以西式麵糰為主）；中式研究約 1～1.5% 乾酵母</td></tr>
+  <tr><td>出品</td><td>穩定、門店操作最簡單；口感略乾、表皮較不亮</td><td>接近現蒸；但凍損會讓體積、白度下降，品質隨冷凍天數遞減</td></tr>
+  <tr><td>回復</td><td>直接冷凍上鍋，上汽後依大小約 5～15 分鐘至中心軟；或微波、烤箱</td><td>冷藏或醒發箱解凍（研究例：約 30°C、75% 濕度約 60 分鐘），醒到位再蒸</td></tr>
+  <tr><td>保存</td><td>-18～-23°C 穩定時，業界資料約可到 6 個月</td><td>Angel 資料約 3～6 個月，建議 3 個月內用完；專利例到 180 天</td></tr>
+  <tr><td>風險</td><td>冷卻時失水起皺；冷凍庫溫度波動導致冰晶長大、老化變硬</td><td>酵母凍死、麵筋被冰晶刺破、解凍不均（外面已發、中心還硬）</td></tr>
+ </table></div>
+ <h3>關鍵技術</h3>
+ <div class="grid2">
+  <div class="mini"><h4>酵母與發酵控制</h4><ul><li>生坯冷凍前<b>盡量少發</b>：已發的氣泡壁薄，冰晶一刺就破；酵母進入活躍期也更怕凍。</li><li>麵糰出缸溫度抓低一點（約 20～26°C），減少凍前發酵。</li><li>使用<b>耐冷凍酵母</b>或耐高糖型，研究顯示耐滲透壓的酵母冷凍後存活較好。</li></ul></div>
+  <div class="mini"><h4>麵筋與吸水</h4><ul><li>用較強的麵粉（中高筋）或少量加麵筋粉；ASBE 建議冷凍麵糰用高蛋白粉。</li><li><b>吸水量略降</b>（約 1～3 個百分點），減少可凍結的自由水。</li><li>適量油脂（約 2～5%）與糖有助抗凍融；改良劑（乳化劑、膠類）依法規使用。</li></ul></div>
+  <div class="mini"><h4>冰晶與溫度</h4><ul><li><b>急凍</b>越快冰晶越小：商用急凍 -30～-40°C 以下最理想；家用冷凍庫只能盡量攤平、少量分批、預冷。</li><li>儲存 <b>-18°C 以下</b>且溫度穩定；反覆開門、回溫再凍是品質殺手。</li></ul></div>
+  <div class="mini"><h4>包裝與解凍</h4><ul><li>急凍定型後再裝袋，擠出空氣或真空，防凍燒、乾裂。</li><li>生坯解凍：前一晚移冷藏，或醒發箱低溫高濕回溫；避免表面結露後直接醒發造成斑點。</li><li>熟品不必退冰，直接蒸效果最好。</li></ul></div>
+ </div>
+ <h3>適用品項</h3>
+ <div class="tbl"><table>
+  <tr><th>品項</th><th>熟凍</th><th>生凍</th><th>備註</th></tr>
+  <tr><td>饅頭</td><td>✔ 最成熟</td><td>可</td><td>生凍易皺，壓延要充分</td></tr>
+  <tr><td>包子</td><td>✔</td><td>難度高</td><td>餡料出水會傷皮；餡要冷、控水</td></tr>
+  <tr><td>花卷、蔥花捲</td><td>✔</td><td>可</td><td>蔥會出水變色，熟凍較穩</td></tr>
+  <tr><td>燒餅生坯</td><td>—</td><td>✔ 常見</td><td>半發或油酥類，凍生坯直接或回溫後烤，效果好</td></tr>
+ </table></div>
+ <h3>給早餐店的實務建議</h3>
+ <ul>
+  <li><b>前一晚備料</b>：比起冷凍，冷藏延遲（0～5°C，酵母減量）可能更簡單：晚上整形、冷藏，早上回溫醒發即蒸。但冰箱溫度不穩會讓批次差異大。</li>
+  <li><b>尖峰出餐</b>：熟凍饅頭／包子直接上蒸櫃回蒸，最可預期；現蒸只排在離峰。</li>
+  <li><b>三間分店中央備製</b>：中央廚房做熟凍最好標準化，分店只需要冷凍櫃＋蒸櫃；生坯配送則要冷鏈與各店醒發箱，品質差異較大。若量大，值得投資急凍設備。</li>
+  <li><b>先做小規模測試</b>：每個品項冷凍 1 天、7 天、30 天各蒸一次比較，記錄體積、白度、口感，再決定保存期限與先進先出規則。</li>
+  <li>冷凍熟品對外販售時，標示、保存條件等屬食品標示規範，請依食藥署最新規定。</li>
+ </ul>
+</section>
+
+<!-- CH6 -->
+<section class="chapter" id="ch6" data-nav="計算工具">
+ <div class="eyebrow">06 · Tools</div>
+ <h2>互動小工具</h2>
+ <div class="note">所有計算都是<b>經驗估算，請依實際環境微調</b>。</div>
+
+ <div class="card tool" id="toolA">
+  <h3 style="margin-top:0">a. 烘焙百分比計算器（可扣除老麵）</h3>
+  <div class="form">
+   <label>總麵粉量（g）<input type="number" id="aF" value="1000" min="0" inputmode="decimal"></label>
+   <label>水 %<input type="number" id="aW" value="50" inputmode="decimal"></label>
+   <label>即溶酵母 %<input type="number" id="aY" value="0.8" step="0.1" inputmode="decimal"></label>
+   <label>糖 %<input type="number" id="aS" value="8" inputmode="decimal"></label>
+   <label>鹽 %<input type="number" id="aN" value="0.5" step="0.1" inputmode="decimal"></label>
+   <label>油 %<input type="number" id="aO" value="2" inputmode="decimal"></label>
+   <label>老麵 %（以總麵粉計）<input type="number" id="aL" value="20" inputmode="decimal"></label>
+   <label>老麵含水率 %（水/粉）<input type="number" id="aH" value="50" inputmode="decimal"></label>
+  </div>
+  <div class="out" id="aOut"></div>
+ </div>
+
+ <div class="card tool" id="toolB">
+  <h3 style="margin-top:0">b. 水溫計算器（DDT）</h3>
+  <p>水溫 ＝ 目標麵溫 × 3 − 室溫 − 粉溫 − 摩擦升溫（有老麵時 × 4 並再減老麵溫）。摩擦升溫是攪拌造成的升溫，<b>要用自己的攪拌機實測</b>：King Arthur 的例子手揉約 3～4°C、桌上型攪拌機約 12～13°C；大型攪拌機、時間長會更高。</p>
+  <div class="form">
+   <label>目標麵糰溫度（°C）<input type="number" id="bD" value="27" inputmode="decimal"></label>
+   <label>室溫（°C）<input type="number" id="bR" value="28" inputmode="decimal"></label>
+   <label>麵粉溫度（°C）<input type="number" id="bF" value="27" inputmode="decimal"></label>
+   <label>摩擦升溫（°C）<input type="number" id="bX" value="10" inputmode="decimal"></label>
+   <label>有老麵？<select id="bUse"><option value="0">無</option><option value="1">有</option></select></label>
+   <label>老麵溫度（°C）<input type="number" id="bP" value="25" inputmode="decimal"></label>
+  </div>
+  <div class="out" id="bOut"></div>
+ </div>
+
+ <div class="card tool" id="toolC">
+  <h3 style="margin-top:0">c. 酵母用量／發酵時間估算</h3>
+  <p>經驗規則：以「約 28～30°C、即溶酵母約 1%、約 60 分鐘發到約 2 倍」為基準（接近 Angel 家用說明：約 1%、30～36°C、40～60 分鐘）；酵母量大致與時間成反比，溫度每降約 8°C 速度約減半。<b>這是粗估，不是公式；鹽、糖、麵粉、酵母新鮮度都會讓實際結果偏離。</b></p>
+  <div class="form">
+   <label>發酵溫度（°C）<input type="number" id="cT" value="28" inputmode="decimal"></label>
+   <label>目標時間（分鐘，發到約 2 倍）<input type="number" id="cM" value="60" inputmode="decimal"></label>
+   <label>糖 %<select id="cS"><option value="0">低（0～5%）</option><option value="1">高（&gt;8%，用耐高糖型）</option></select></label>
+  </div>
+  <div class="out" id="cOut"></div>
+ </div>
+
+ <div class="card tool" id="toolD">
+  <h3 style="margin-top:0">d. 酵母種類與老麵換算</h3>
+  <div class="form">
+   <label>麵粉量（g）<input type="number" id="dF" value="1000" inputmode="decimal"></label>
+   <label>原配方酵母種類<select id="dT"><option value="i">即溶乾酵母</option><option value="a">活性乾酵母</option><option value="f">新鮮酵母</option></select></label>
+   <label>原配方酵母量（g）<input type="number" id="dY" value="10" inputmode="decimal"></label>
+   <label>改用方式<select id="dM"><option value="mix">老麵＋少量酵母</option><option value="pure">純老麵</option></select></label>
+  </div>
+  <div class="out" id="dOut"></div>
+ </div>
+
+ <div class="card tool" id="toolE">
+  <h3 style="margin-top:0">e. 發酵診斷</h3>
+  <p>勾選看到的症狀（可複選）：</p>
+  <div class="chk" id="eChk"></div>
+  <div class="out" id="eOut"></div>
+ </div>
+</section>
+
+<!-- CH7 -->
+<section class="chapter" id="ch7" data-nav="食安與合規">
+ <div class="eyebrow">07 · Safety</div>
+ <h2>食品安全與合規提醒</h2>
+ <ul>
+  <li><b>食用鹼、小蘇打、泡打粉、改良劑、乳化劑</b>等都屬食品添加物，使用範圍、限量與標示請依衛福部食藥署《食品添加物使用範圍及限量暨規格標準》與相關標示規定，並<b>以食藥署最新公告為準</b>（該標準近年仍有修正）。可在<a href="https://consumer.fda.gov.tw/Law/FoodAdditivesList.aspx?nodeID=521" target="_blank" rel="noopener">食藥署消費者專區查詢</a>或<a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=l0040084" target="_blank" rel="noopener">全國法規資料庫</a>。</li>
+  <li>購買添加物請選有食品級標示、登錄字號的產品，不要用工業用碳酸鈉。</li>
+  <li>老麵：專用容器、定期汰換，出現<b>粉紅、黑、綠色黴斑或腐臭</b>整塊丟棄，不要刮掉再用。</li>
+  <li>冷凍：急凍後 -18°C 以下保存、標日期、先進先出；解凍後的生坯不要再冷凍。</li>
+  <li>包子餡（肉餡）：冷藏保存、與麵糰區分作業，回蒸要中心熱透。</li>
+ </ul>
+</section>
+
+<footer id="src">
+ <h2 style="color:var(--text)">資料來源與說明</h2>
+ <p>以下為製作本頁時實際查閱的資料。數字以範圍呈現；不同來源不一致之處已在文中註明。未標來源的流程描述屬業界常見做法整理，請以師傅實際經驗校正。</p>
+ <ol class="src">
+  <li><a href="https://lesaffre.com.au/insights/idy-vs-compressed-yeast" target="_blank" rel="noopener">Lesaffre AU – Instant Dry Yeast &amp; Compressed Yeast: A Baker's Guide</a>（即溶：新鮮 ≈ 1：3、含水量）</li>
+  <li><a href="https://asbe.org/article/dry-yeast/" target="_blank" rel="noopener">American Society of Baking – Dry Yeast</a>（即溶 ＝ 新鮮 × 0.35；活性乾 ＝ 新鮮 × 0.5）</li>
+  <li><a href="https://www.quantacalculator.com/food/yeast-converter" target="_blank" rel="noopener">Yeast Converter（整理 Red Star／King Arthur／SAF-Instant 換算與補水）</a></li>
+  <li><a href="https://domson.co.uk/gb/academy/yeast-leavening/yeast-types-comparison" target="_blank" rel="noopener">Domson – Fresh, Active Dry &amp; Instant Yeast</a>（活性乾酵母回溶溫度）</li>
+  <li><a href="https://dimsum.angelyeast.com/channels/4130.html" target="_blank" rel="noopener">安琪酵母中式麵點技術推送</a>（酵母用量 0.8～1.5%、關火悶 3～5 分鐘、開蓋回縮原因）</li>
+  <li><a href="https://en.angelyeast.com/blog/yeast-baking/what-is-frozen-dough.html" target="_blank" rel="noopener">Angel Yeast – What is Frozen Dough?</a>（急凍、-18°C 儲存、3～6 個月）</li>
+  <li><a href="https://asbe.org/article/frozen-dough/" target="_blank" rel="noopener">American Society of Baking – Frozen Dough</a>（酵母 1.5～2 倍、強粉、低吸水、急凍）</li>
+  <li><a href="http://www.scielo.br/j/babt/a/SJrVsswZzxPrvFFZZM3WZcB/?lang=en" target="_blank" rel="noopener">Effect of formulation on the quality of frozen bread dough（SciELO）</a>（耐滲透壓酵母抗凍性較佳）</li>
+  <li><a href="https://doi.org/10.1016/j.lwt.2011.10.017" target="_blank" rel="noopener">Effects of freezing treatments on sweet dough（LWT）</a>（冷凍速率、冰晶與麵筋）</li>
+  <li><a href="https://www.spgykj.com/article/doi/10.13386/j.issn1002-0306.2011.08.087" target="_blank" rel="noopener">冷凍麵團饅頭關鍵工藝技術研究（食品工業科技）</a>（酵母 1.0%、解凍 30°C／75%／60 分鐘）</li>
+  <li><a href="https://www.xjishu.com/zhuanli/02/202310101906.html" target="_blank" rel="noopener">專利：抗凍融預製半醒發中式冷凍麵團製備方法</a>（出缸 26～30°C、急凍 -40～-80°C、儲存 -18～-20°C）</li>
+  <li><a href="https://m.haiweili.com/t803" target="_blank" rel="noopener">速凍饅頭的生產技術</a>（熟凍流程、中心 -20°C、約 6 個月、回蒸 5～15 分鐘）</li>
+  <li><a href="https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2024.1379484/full" target="_blank" rel="noopener">Frontiers in Microbiology – Jiaozi and Laomian after frozen storage</a>（老麵菌群與 pH 約 3.7～4.1）</li>
+  <li><a href="https://www.kingarthurbaking.com/blog/2018/05/29/desired-dough-temperature" target="_blank" rel="noopener">King Arthur – Desired dough temperature</a>、<a href="https://www.kingarthurbaking.com/pro/reference/dough-temperature" target="_blank" rel="noopener">Dough Temperature</a>（DDT 公式、摩擦係數）</li>
+  <li><a href="https://www.uhelp.cc/a/202202/673315.html" target="_blank" rel="noopener">安琪高活性乾酵母饅頭用法整理</a>、<a href="https://www.stdans.com/a/202303/1161218.html" target="_blank" rel="noopener">蒸饅頭用鹼量討論</a>（民間經驗值，僅作範圍參考）</li>
+  <li><a href="https://consumer.fda.gov.tw/Law/FoodAdditivesList.aspx?nodeID=521" target="_blank" rel="noopener">衛福部食藥署 – 食品添加物使用範圍及限量暨規格標準查詢</a></li>
+ </ol>
+ <p>本頁為教學整理，非食品法規或配方保證。© 正大永和豆漿 內部學習用</p>
+</footer>
+</main>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const fmt=(n,d=1)=>isFinite(n)?(Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toLocaleString('zh-TW'):'—';
+const num=id=>{const v=parseFloat(document.getElementById(id).value);return isFinite(v)?v:0};
+// nav
+const secs=[...document.querySelectorAll('[data-nav]')];
+const nl=$('#navlist'),tn=$('#topnav');
+secs.forEach((s,i)=>{
+ const li=document.createElement('li');li.innerHTML=`<a href="#${s.id}"><span>${String(i).padStart(2,'0')}</span>${s.dataset.nav}</a>`;nl.appendChild(li);
+ const a=document.createElement('a');a.href='#'+s.id;a.textContent=s.dataset.nav;tn.appendChild(a);
+});
+const links=[...document.querySelectorAll('#navlist a,#topnav a')];
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));
+ const t=tn.querySelector('a.on');if(t&&getComputedStyle(tn).display!=='none'){tn.scrollTo({left:t.offsetLeft-20,behavior:'smooth'})}}})},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>io.observe(s));
+
+// compare
+const CMP=[
+ ['菌群','單一純種釀酒酵母，活性與數量由廠商標準化。','野生酵母＋乳酸菌（＋部分醋酸菌）混合菌群，組成依地區與續養方式而異。','酵母是「純發動機」；老麵是「發動機＋調味廠」。'],
+ ['風味','乾淨、麵香為主；時間短時風味較單薄，可靠延長低溫發酵補。','麥香、微酸、發酵香更厚，加鹼後有特有的「鹼香」；過頭會酸、有酒味。','要老味道又要快：混用。'],
+ ['組織','孔細勻、白、鬆軟，體積容易做大。','較紮實有層次、咬勁好、手撕成片；酸對麵筋有影響，比例過高會變黏。','山東饅頭偏老麵；軟白饅頭偏酵母。'],
+ ['酸度與用鹼','幾乎不產酸，<b>通常不用鹼</b>；發過頭才微量補。','pH 會降到約 4 上下，<b>多數要加鹼中和</b>；鹼量依酸度判斷，過量發黃發澀。','加鹼是技術門檻，也是老麵品質不穩的主因之一。'],
+ ['穩定性','高：同溫同量，時間可預期。','中～低：老麵活性隨季節、餵養時間、冰箱溫度浮動，需每天觀察。','多分店要統一品質，酵母或混用更容易標準化。'],
+ ['時程','即溶 1% 左右約 40～60 分鐘可發（溫暖時）；隨時可做。','需每天續養；主麵糰常要數小時，或前一晚起發。','早餐店凌晨出餐：酵母／混用最好排班。'],
+ ['成本','酵母本身便宜，用量小；人工與時間可控。','材料幾乎免費，但需人力續養、空間、報廢損耗，以及加鹼判斷的經驗成本。','老麵的成本在「人」不在「料」。'],
+ ['優點','穩定、快、易教、適合標準化與冷凍。','風味層次、保濕與老化較慢（經驗上）、傳統賣點。',''],
+ ['缺點','風味較平；用量過多有酵母味。','不穩定、酸、需用鹼；雜菌風險要靠衛生管理。',''],
+ ['何時用','軟白饅頭、包子、花卷、冷凍品、分店標準化。','招牌老麵饅頭、山東大饅頭、北方硬麵；有固定師傅掌控時。','兩者混用通常是門市最實際的折衷。']
+];
+const tabs=$('#cmpTabs'),body=$('#cmpBody');
+function showCmp(i){[...tabs.children].forEach((b,j)=>b.setAttribute('aria-selected',i===j));const c=CMP[i];
+ body.innerHTML=`<div class="y"><h4>商業酵母</h4><p>${c[1]}</p></div><div class="l"><h4>老麵</h4><p>${c[2]}</p></div>`+(c[3]?`<div class="verdict" style="grid-column:1/-1">👉 ${c[3]}</div>`:'')}
+CMP.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=c[0];b.onclick=()=>showCmp(i);tabs.appendChild(b)});
+showCmp(0);
+
+// spectrum
+const SP=[
+ {n:'不發',s:'死麵／燙麵',v:[1,1],vol:'約 1 倍（不刻意發酵）',tt:'不加酵母；冷水麵醒 20～30 分鐘即可，燙麵靠熱水糊化',test:'無氣孔，手感緊實有彈性，靠醒麵鬆弛筋性而非產氣',food:'麵條、水餃皮、燒賣皮、蒸餃（燙麵）、春捲皮',prob:'醒不夠回縮難擀；水太多黏手；燙麵比例過高缺乏嚼勁'},
+ {n:'微發',s:'小發／嫩發',v:[1.1,1.3],vol:'約 1.1～1.3 倍',tt:'少量酵母（約 0.2～0.5%）或很短的發酵，室溫 20～40 分鐘；或燙麵＋少量發麵混合',test:'切面零星小孔，戳壓幾乎全回彈；比死麵鬆、比發麵密',food:'部分蔥油餅、餡餅、家常餅、有些水煎包皮（依師傅）',prob:'發多了油煎時會鼓起、層次糊掉；發少了跟死麵沒差'},
+ {n:'半發',s:'半發麵',v:[1.3,1.6],vol:'約 1.3～1.6 倍（各家差異大）',tt:'酵母約 0.5～1%，室溫或約 28°C 下發 30～60 分鐘，常在未完全發起時就整形下鍋',test:'戳壓回彈快、留一點點凹痕；切面孔小而疏；麵糰仍有點緊',food:'水煎包、生煎包、燒餅類、部分蔥花大餅、韭菜盒（各店做法不同，有的用全發）',prob:'過發則水煎時底部塌爛、皮吸油；不足則皮硬、包子褶難捏開。<b>這段因師傅、地區而異最明顯</b>'},
+ {n:'全發',s:'大發',v:[1.8,2.5],vol:'約 1.8～2.5 倍（主發酵常抓約 2 倍）',tt:'酵母約 0.8～1.5%，約 28～35°C 下 40～90 分鐘；老麵法數小時；最後醒發約 32～38°C、20～60 分鐘',test:'戳壓慢慢回彈、留淺凹痕；切面蜂窩細密均勻；拍打有空鼓聲；聞起來有發酵香無酸',food:'饅頭、包子、花卷、銀絲卷、刈包、發糕（另有化學膨發）',prob:'醒過頭會皺縮塌；不足則死硬開裂；老麵法需正確用鹼'},
+ {n:'過發',s:'老過頭',v:[2.5,3.2],vol:'可超過約 2.5～3 倍後開始塌',tt:'溫度太高、時間太久或酵母過量',test:'戳下去不回彈甚至塌陷；大氣泡破裂、表面有坑；明顯酸味、酒味；麵筋拉扯一扯就斷',food:'（不適合直接用）可當老麵用，或加新麵粉揉入、減酵母重來；老麵法則加鹼救',prob:'成品塌陷、皺皮、組織粗、發酸發黃；過發的生坯蒸了也救不回來'}
+];
+const sb=$('#specBtns'),sd=$('#specDetail'),svg=$('#specSvg');
+function drawSpec(sel){let h='';const W=640,base=150,unit=40;SP.forEach((s,i)=>{const x=20+i*124,lo=s.v[0],hi=s.v[1];
+ const hhi=hi*unit,hlo=lo*unit,on=i===sel;
+ h+=`<rect x="${x}" y="${base-hhi}" width="96" height="${hhi}" rx="10" fill="${on?'rgba(242,200,121,.25)':'rgba(255,255,255,.04)'}" stroke="${on?'#f2c879':'#45392c'}" stroke-dasharray="4 3"/>`;
+ h+=`<rect x="${x}" y="${base-hlo}" width="96" height="${hlo}" rx="10" fill="${i===4?'#a8584c':on?'#f2c879':'#6b5b48'}"/>`;
+ h+=`<text x="${x+48}" y="${base+16}" fill="${on?'#fff':'#b9ab98'}" font-size="13" text-anchor="middle">${s.n}</text>`;
+ h+=`<text x="${x+48}" y="${base-hhi-6}" fill="#b9ab98" font-size="12" text-anchor="middle">${lo===hi?lo+'×':lo+'–'+hi+'×'}</text>`});
+ svg.innerHTML=h}
+function showSpec(i){[...sb.children].forEach((b,j)=>b.setAttribute('aria-selected',i===j));const s=SP[i];drawSpec(i);
+ sd.innerHTML=`<h3 style="margin-top:0">${s.n}<span class="tag" style="margin-left:10px">${s.s}</span></h3><dl><dt>體積變化</dt><dd>${s.vol}</dd><dt>常見時間與溫度</dt><dd>${s.tt}</dd><dt>判斷方法</dt><dd>${s.test}</dd><dt>適合的麵點</dt><dd>${s.food}</dd><dt>常見問題</dt><dd>${s.prob}</dd></dl><p class="cap">數值為經驗範圍，依配方、麵粉、季節與師傅習慣而異。</p>`}
+SP.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.innerHTML=`${s.n}<small>${s.s}</small>`;b.onclick=()=>showSpec(i);sb.appendChild(b)});
+showSpec(3);
+
+// tool a
+function calcA(){const F=num('aF'),w=num('aW')/100,y=num('aY')/100,s=num('aS')/100,n=num('aN')/100,o=num('aO')/100,L=num('aL')/100,h=num('aH')/100;
+ const lev=F*L,levF=lev/(1+h),levW=lev*h/(1+h);const addF=F-levF,addW=F*w-levW;
+ const rows=[['麵粉（另加）',addF],['水（另加）',addW],['老麵',lev],['即溶酵母',F*y],['糖',F*s],['鹽',F*n],['油',F*o]];
+ const tot=rows.reduce((a,r)=>a+r[1],0),expect=F*(1+w+y+s+n+o);
+ let warn='';if(addF<0)warn+='<p class="hl-r">⚠ 老麵中的麵粉已超過總麵粉，請降低老麵 %。</p>';if(addW<0)warn+='<p class="hl-r">⚠ 老麵中的水已超過配方總水量，需降低老麵量或提高水 %。</p>';
+ $('#aOut').innerHTML=`<div class="tbl" style="margin:0 0 10px"><table style="min-width:0"><tr><th>材料</th><th>克數</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="mono">${fmt(r[1])} g</td></tr>`).join('')}<tr><td><b>麵糰總重</b></td><td class="mono"><b>${fmt(tot)} g</b></td></tr></table></div>
+ <p>老麵 ${fmt(lev)} g 中約含麵粉 <b>${fmt(levF)} g</b>、水 <b>${fmt(levW)} g</b>，已從另加的麵粉與水中扣除。總麵粉仍為 ${fmt(F)} g、總水 ${fmt(F*w)} g（吸水 ${fmt(w*100)}%）。</p>
+ <p class="cap">檢查：各項加總 ${fmt(tot)} g ＝ 麵粉 ×（1＋各項 %）${fmt(expect)} g ${Math.abs(tot-expect)<0.01?'✔':'✘'}　<span class="est">經驗估算，請依實際環境微調</span></p>${warn}`}
+['aF','aW','aY','aS','aN','aO','aL','aH'].forEach(id=>document.getElementById(id).addEventListener('input',calcA));calcA();
+
+// tool b
+function calcB(){const D=num('bD'),R=num('bR'),F=num('bF'),X=num('bX'),u=$('#bUse').value==='1',P=num('bP');
+ const t=u?D*4-R-F-X-P:D*3-R-F-X;let msg='';
+ if(t<1)msg=`<p class="hl-r">算出的水溫低於約 1°C：自來水做不到，需用冰水或部分以碎冰取代水（冰的融化熱能大幅降溫），或降低室溫／粉溫、縮短攪拌。</p>`;
+ else if(t>40)msg=`<p class="hl-r">水溫超過約 40°C：酵母直接接觸可能受傷。建議改提高室溫或延長發酵，而不是用更熱的水；活性乾酵母回溶也不宜超過約 43°C。</p>`;
+ else if(t<10)msg=`<p class="hl">需冷水／冰水，夏天常見。</p>`;else msg=`<p class="hl-g">在一般可操作範圍內。</p>`;
+ $('#bOut').innerHTML=`<div>建議水溫</div><div class="big">${fmt(t)} °C</div><p class="cap">${u?`${D}×4 − ${R} − ${F} − ${X} − ${P}`:`${D}×3 − ${R} − ${F} − ${X}`} ＝ ${fmt(t)}</p>${msg}<p class="cap">先以此水溫試做，量實際出缸溫度後回推自家攪拌機的摩擦升溫：摩擦 ＝ 實際麵溫×3 − 室溫 − 粉溫 − 水溫。<span class="est">經驗估算，請依實際環境微調</span></p>`}
+['bD','bR','bF','bX','bUse','bP'].forEach(id=>document.getElementById(id).addEventListener('input',calcB));calcB();
+
+// tool c
+function calcC(){const T=num('cT'),M=Math.max(num('cM'),1),hs=$('#cS').value==='1';
+ let base=1*(60/M)*Math.pow(2,(28-T)/8);if(hs)base*=1.0; // osmotolerant at high sugar ~ similar dose
+ const lo=base*0.7,hi=base*1.3;let note='';
+ if(T>38)note+='<p class="hl-r">溫度高於約 38°C：酵母開始受壓、雜菌與酸度易失控，不建議作為主發酵溫度。</p>';
+ if(T<15)note+='<p class="hl">低於約 15°C 屬冷藏／延遲發酵區，經驗規則誤差更大；冷藏（約 2～5°C）隔夜常見即溶約 0.2～0.5%，請實測。</p>';
+ if(hi>2.5)note+='<p class="hl-r">估算超過約 2.5%：目標時間太短，酵母味會重，建議拉長時間或提高溫度。</p>';
+ if(lo<0.1&&T>=15)note+='<p class="hl">估算低於 0.1%：極少量時秤量誤差大，可先稀釋在水中再取用。</p>';
+ const fr=[lo*2.5,hi*3];
+ $('#cOut').innerHTML=`<div>即溶酵母約占麵粉</div><div class="big">${fmt(lo,2)}～${fmt(hi,2)} %</div><p>換成新鮮酵母約 ${fmt(fr[0],2)}～${fmt(fr[1],2)} %。${hs?'高糖麵糰請用<b>耐高糖型</b>（Angel 建議夏季耐高糖型約比普通型少用 20%，以耐高糖型在高糖麵糰中表現為準）。':''}</p>${note}<p class="cap">粗估模型：基準 28°C、1%、60 分鐘；量 ∝ 1/時間；溫度每 ±8°C 速度約 ×2 或 ÷2。<span class="est">經驗規則，請依實際環境微調</span></p>`}
+['cT','cM','cS'].forEach(id=>document.getElementById(id).addEventListener('input',calcC));calcC();
+
+// tool d
+function calcD(){const F=num('dF'),t=$('#dT').value,Y=num('dY'),m=$('#dM').value;
+ const idy=t==='i'?Y:t==='a'?Y:Y/3; // ADY≈IDY 1:1 (some say ADY 1.25x)
+ const fLo=idy*2.5,fHi=idy*3;const pct=F>0?idy/F*100:0;
+ let h=`<p>原配方約等於 <b>即溶 ${fmt(idy,1)} g</b>（${fmt(pct,2)}% 麵粉）＝ 活性乾約 ${fmt(idy,1)}～${fmt(idy*1.25,1)} g ＝ 新鮮約 ${fmt(fLo,1)}～${fmt(fHi,1)} g。</p>`;
+ if(t==='f')h+=`<p class="cap">新鮮換乾酵母時，少掉的水約為乾酵母重量 2 倍（約 ${fmt(idy*2,0)} g），可加回配方水中。</p>`;
+ if(m==='mix'){h+=`<h4>老麵＋少量酵母（經驗起點）</h4><ul><li>老麵：麵粉的約 10～20% → <b>${fmt(F*.1,0)}～${fmt(F*.2,0)} g</b></li><li>即溶酵母減為原量約 30～60% → <b>${fmt(idy*.3,1)}～${fmt(idy*.6,1)} g</b></li><li>發酵時間與原配方相近或略長；多半不需加鹼或極少量。</li></ul>`}
+ else{h+=`<h4>純老麵（經驗起點）</h4><ul><li>老麵：麵粉的約 20～40% → <b>${fmt(F*.2,0)}～${fmt(F*.4,0)} g</b></li><li>酵母 0；發酵時間常為酵母法的約 1.5～3 倍以上，且隨老麵活性大幅變動。</li><li>需判斷酸度用鹼（先試蒸一小塊）。</li></ul>`}
+ h+=`<div class="note warn" style="margin-bottom:0">酵母與老麵<b>沒有固定換算比</b>：老麵的活性取決於餵養後幾小時、溫度與含水。上面只是起點，請記得把老麵內的麵粉與水從配方扣除（工具 a）。<span class="est">經驗估算，請依實際環境微調</span></div>`;
+ $('#dOut').innerHTML=h}
+['dF','dT','dY','dM'].forEach(id=>document.getElementById(id).addEventListener('input',calcD));calcD();
+
+// tool e
+const DX=[
+ ['皺皮','表面皺縮',[['醒發過度／麵筋撐不住','醒發抓嫩一點、減水、加強壓延'],['蒸好立即開蓋','關火悶 3～5 分鐘再開'],['冷凝水滴落','鍋蓋包布、用拱形蓋'],['鹼過量','減鹼並試蒸']]],
+ ['塌','塌陷／扁平',[['過發','縮短醒發或降溫'],['水太多、粉太弱','減水 2～3%、換筋度較高的粉'],['整形張力不足','收口更緊、捲緊']]],
+ ['酸','酸味',[['老麵比例或時間太多','減老麵、縮時'],['溫度過高','降低麵溫（工具 b）'],['鹼不足','少量補鹼，試蒸確認']]],
+ ['黃','發黃／黃斑',[['鹼多或鹼沒揉勻','鹼先溶水、揉勻；減量'],['麵粉灰分高／陳粉','換粉心粉、注意保存'],['蒸鍋水鏽','清潔蒸具']]],
+ ['死','發不起來／死麵',[['酵母失活','檢查效期與保存；勿碰熱水 >約 40°C、勿直接接觸大量鹽糖'],['溫度太低','提高水溫、使用醒發箱'],['醒發不足','延長；用戳壓測試判斷'],['鹼太多消耗產氣','控制用鹼']]],
+ ['粗','組織粗、大孔',[['壓延不足','增加壓延次數'],['基本發酵過頭','縮短或改一次發酵法'],['整形包入空氣','捲緊、壓緊收口']]],
+ ['酒','酒味重',[['發酵過度／酵母量過多','減酵母或縮時'],['溫度過高','降溫']]],
+ ['裂','開裂',[['醒發不足','醒到位再蒸'],['表皮風乾','醒發時保濕'],['火力過猛','調整蒸汽量']]],
+ ['泡','表面起泡、小斑點',[['撲粉太多','壓延少撒乾粉'],['醒發濕度過高滴水','控濕、加蓋']]],
+ ['凍','冷凍後回蒸塌、皺',[['冷凍前發酵過度','生坯少發或不發'],['慢凍冰晶大','急凍、分散擺放'],['儲存溫度波動','穩定 -18°C 以下，少開門'],['冷卻失水','保濕冷卻後再凍']]]
+];
+const ec=$('#eChk');DX.forEach((d,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox" value="${i}">${d[1]}`;ec.appendChild(l)});
+function calcE(){const sel=[...ec.querySelectorAll('input:checked')].map(c=>DX[+c.value]);
+ if(!sel.length){$('#eOut').innerHTML='<p class="cap">尚未選擇症狀。</p>';return}
+ $('#eOut').innerHTML=sel.map(d=>`<h4>${d[1]}</h4><ul>${d[2].map(c=>`<li><b>${c[0]}</b> → ${c[1]}</li>`).join('')}</ul>`).join('')+'<p class="cap">多個症狀同時出現時，先處理共同原因（常見是「過發」或「用鹼」）。<span class="est">經驗判斷，請依實際環境微調</span></p>'}
+ec.addEventListener('change',calcE);calcE();
+})();
+</script>
+</body>
+</html>
