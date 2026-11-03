@@ -373,7 +373,13 @@ footer{max-width:1060px;margin:0 auto;padding:30px 40px 80px;color:var(--dim);fo
  <div class="card tool" id="toolA">
   <h3 style="margin-top:0">a. 烘焙百分比計算器（可扣除老麵）</h3>
   <div class="form">
-   <label>總麵粉量（g）<input type="number" id="aF" value="1000" min="0" inputmode="decimal"></label>
+   <label>以什麼為準？<select id="aMode"><option value="w">總麵粉重量（g）</option><option value="c">用容器量水（例：水瓢）</option></select></label>
+   <label class="aC">容器<select id="aCup"><option value="1.5" selected>水瓢 1.5L（紅色塑膠）</option><option value="1">1 L 量杯</option><option value="2">2 L 容器</option><option value="3">3 L 容器</option><option value="5">5 L 水桶</option><option value="0">自訂容量…</option></select></label>
+   <label class="aC">自訂容量（L）<input type="number" id="aCap" value="1.5" step="0.1" inputmode="decimal"></label>
+   <label class="aC">每次裝到幾成滿（%）<input type="number" id="aFill" value="80" inputmode="decimal"></label>
+   <label class="aC">另加幾瓢水（不含老麵內的水）<input type="number" id="aCnt" value="4" step="0.5" inputmode="decimal"></label>
+   <label class="aC">你的容器裝滿麵粉實測重（g）<input type="number" id="aDens" value="800" inputmode="decimal"></label>
+   <label class="aW">總麵粉量（g）<input type="number" id="aF" value="1000" min="0" inputmode="decimal"></label>
    <label>水 %<input type="number" id="aW" value="50" inputmode="decimal"></label>
    <label>即溶酵母 %<input type="number" id="aY" value="0.8" step="0.1" inputmode="decimal"></label>
    <label>糖 %<input type="number" id="aS" value="8" inputmode="decimal"></label>
@@ -383,6 +389,7 @@ footer{max-width:1060px;margin:0 auto;padding:30px 40px 80px;color:var(--dim);fo
    <label>老麵含水率 %（水/粉）<input type="number" id="aH" value="50" inputmode="decimal"></label>
   </div>
   <div class="out" id="aOut"></div>
+  <div class="out" id="aCOut" style="margin-top:8px"></div>
  </div>
 
  <div class="card tool" id="toolB">
@@ -525,15 +532,23 @@ SP.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.se
 showSpec(3);
 
 // tool a
-function calcA(){const F=num('aF'),w=num('aW')/100,y=num('aY')/100,s=num('aS')/100,n=num('aN')/100,o=num('aO')/100,L=num('aL')/100,h=num('aH')/100;
+function calcA(){const mode=$('#aMode').value==='c';
+ document.querySelectorAll('#toolA .aC').forEach(e=>e.style.display=mode?'':'none');document.querySelectorAll('#toolA .aW').forEach(e=>e.style.display=mode?'none':'');
+ const cupSel=parseFloat($('#aCup').value);document.getElementById('aCap').parentElement.style.display=(mode&&cupSel===0)?'':'none';
+ const cupL=cupSel===0?num('aCap'):cupSel,perCup=cupL*1000*num('aFill')/100;
+ const w0=num('aW')/100,L0=num('aL')/100,h0=num('aH')/100;
+ let F;if(mode){const waterG=perCup*num('aCnt');const k=w0-L0*h0/(1+h0);F=k>0?waterG/k:0;document.getElementById('aF').value=Math.round(F*10)/10}else F=num('aF');
+ const w=w0,y=num('aY')/100,s=num('aS')/100,n=num('aN')/100,o=num('aO')/100,L=num('aL')/100,h=num('aH')/100;
  const lev=F*L,levF=lev/(1+h),levW=lev*h/(1+h);const addF=F-levF,addW=F*w-levW;
  const rows=[['麵粉（另加）',addF],['水（另加）',addW],['老麵',lev],['即溶酵母',F*y],['糖',F*s],['鹽',F*n],['油',F*o]];
  const tot=rows.reduce((a,r)=>a+r[1],0),expect=F*(1+w+y+s+n+o);
  let warn='';if(addF<0)warn+='<p class="hl-r">⚠ 老麵中的麵粉已超過總麵粉，請降低老麵 %。</p>';if(addW<0)warn+='<p class="hl-r">⚠ 老麵中的水已超過配方總水量，需降低老麵量或提高水 %。</p>';
  $('#aOut').innerHTML=`<div class="tbl" style="margin:0 0 10px"><table style="min-width:0"><tr><th>材料</th><th>克數</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="mono">${fmt(r[1])} g</td></tr>`).join('')}<tr><td><b>麵糰總重</b></td><td class="mono"><b>${fmt(tot)} g</b></td></tr></table></div>
  <p>老麵 ${fmt(lev)} g 中約含麵粉 <b>${fmt(levF)} g</b>、水 <b>${fmt(levW)} g</b>，已從另加的麵粉與水中扣除。總麵粉仍為 ${fmt(F)} g、總水 ${fmt(F*w)} g（吸水 ${fmt(w*100)}%）。</p>
- <p class="cap">檢查：各項加總 ${fmt(tot)} g ＝ 麵粉 ×（1＋各項 %）${fmt(expect)} g ${Math.abs(tot-expect)<0.01?'✔':'✘'}　<span class="est">經驗估算，請依實際環境微調</span></p>${warn}`}
-['aF','aW','aY','aS','aN','aO','aL','aH'].forEach(id=>document.getElementById(id).addEventListener('input',calcA));calcA();
+ <p class="cap">檢查：各項加總 ${fmt(tot)} g ＝ 麵粉 ×（1＋各項 %）${fmt(expect)} g ${Math.abs(tot-expect)<0.01?'✔':'✘'}　<span class="est">經驗估算，請依實際環境微調</span></p>${warn}`;
+ const dens=num('aDens'),cupMl=cupL*1000,flourCups=dens>0?(addF/dens):0,waterCups=perCup>0?addW/perCup:0;
+ $('#aCOut').innerHTML=mode?`<p><b>換成容器：</b>每瓢水約 ${fmt(perCup)} g（${fmt(cupL)}L × ${fmt(num('aFill'))}% 滿，水 1 mL ≈ 1 g）。另加的水 ${fmt(addW)} g ≈ <b>${fmt(waterCups)} 瓢</b>；另加的麵粉 ${fmt(addF)} g ≈ <b>${fmt(flourCups)} 瓢（裝滿）</b>，以你實測 ${fmt(dens)} g/瓢計。</p><p class="cap">麵粉鬆緊差很多，請自己把瓢裝滿麵粉秤一次，把重量填進去；酵母、鹽、糖、油量少，建議仍用秤或量匙。<span class="est">經驗估算，請依實際環境微調</span></p>`:`<p class="cap">想用容器量？把上面「以什麼為準」改成「用容器量水」，例如 1.5L 水瓢用幾瓢水，就自動算出麵粉與其他材料。</p>`}
+['aMode','aCup','aCap','aFill','aCnt','aDens','aF','aW','aY','aS','aN','aO','aL','aH'].forEach(id=>document.getElementById(id).addEventListener('input',calcA));calcA();
 
 // tool b
 function calcB(){const D=num('bD'),R=num('bR'),F=num('bF'),X=num('bX'),u=$('#bUse').value==='1',P=num('bP');
